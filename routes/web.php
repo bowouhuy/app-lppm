@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DosenController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [AuthController::class, 'login']);
+Route::post('loginUser', [AuthController::class, 'loginUser']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::prefix('dosen')->middleware('auth.dosen')->group(function () {
+    Route::get('/', [DosenController::class, 'index']);
+    Route::get('list', [DosenController::class, 'list']);
+    Route::post('store',[DosenController::class,'store']);
+    Route::get('delete/{id}',[DosenController::class , 'destroy']);
+    Route::get('download/{filename}',[DosenController::class , 'download']);
 });
