@@ -28,7 +28,8 @@ class DosenController extends Controller
                 if ($row->lppm_approval == '3'){
                     return '<div class="text-center"><span class="badge badge-success">Verified</span></div>';
                 } else if ($row->lppm_approval == '2'){
-                    return '<div class="text-center"><span class="badge badge-danger">Reject</span></div>';
+                    return '<div class="text-center"><span class="badge badge-danger">Reject</span></div>
+                    <div class="text-center"><span class="">'.$row->lppm_note.'</span></div>';
                 } else if ($row->lppm_approval == '1'){
                     return '<div class="text-center"><span class="badge badge-warning">Process</span></div>';
                 } else {
@@ -76,7 +77,7 @@ class DosenController extends Controller
         $title = $request->input('title');
         
         /** Upload files */
-        $filename = $file->getClientOriginalName();
+        $filename = date("dMYHis_").$file->getClientOriginalName();
         $file->move(public_path('files'),$filename);
 
         if (!$id){
@@ -84,12 +85,13 @@ class DosenController extends Controller
                 'dosen_id' => Auth::user()->id,
                 'title' => $title,
                 'file' => $filename,
-                'dosen_date' => date('Y-m-d')
+                'dosen_date' => date('Y-m-d'),
+                'lppm_approval' =>'1'
             ]);
         } else {
             $penelitian = Penelitian::find($id);
-            $jasa->title = $title;
-            $jasa->file = $filename;
+            $penelitian->title = $title;
+            $penelitian->file = $filename;
         }
         
         if ($penelitian->save()){

@@ -39,7 +39,7 @@
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <a href="{{url('/')}}" class="logo">
-                        <img src="{{asset('admin_template/assets/images/logo.png')}}" alt="" height="20" class="logo-large">
+                        <img src="{{asset('admin_template/assets/images/logo-retina.png')}}" alt="" height="40" class="logo-large">
                         <img src="{{asset('admin_template/assets/images/logo-sm.png')}}" alt="" height="22" class="logo-sm">
                     </a>
                 </div>

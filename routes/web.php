@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\LppmController;
+use App\Http\Controllers\ReviewerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,4 +26,19 @@ Route::prefix('dosen')->middleware('auth.dosen')->group(function () {
     Route::post('store',[DosenController::class,'store']);
     Route::get('delete/{id}',[DosenController::class , 'destroy']);
     Route::get('download/{filename}',[DosenController::class , 'download']);
+});
+
+Route::prefix('lppm')->middleware('auth.lppm')->group(function () {
+// Route::prefix('lppm')->group(function () {
+    Route::get('/', [LppmController::class, 'index']);
+    Route::get('list', [LppmController::class, 'list']);
+    Route::post('store',[LppmController::class,'store']);
+    Route::get('download/{filename}',[LppmController::class , 'download']);
+});
+
+Route::prefix('reviewer')->middleware('auth.reviewer')->group(function () {
+    Route::get('/', [ReviewerController::class, 'index']);
+    Route::get('list', [ReviewerController::class, 'list']);
+    Route::post('store',[ReviewerController::class,'store']);
+    Route::get('download/{filename}',[ReviewerController::class , 'download']);
 });

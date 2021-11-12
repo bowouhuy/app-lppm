@@ -9,9 +9,9 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6 my-auto"><h4 class="header-title">List Penelitian</h4></div>
-                    <div class="col-md-6 my-auto text-right"><button onclick=add() class="btn btn-primary text-right px-5" data-toggle="modal" data-target="#formModal">
+                    <!-- <div class="col-md-6 my-auto text-right"><button onclick=add() class="btn btn-primary text-right px-5" data-toggle="modal" data-target="#formModal">
                         <i class="fa fa-plus mr-1"></i> Tambah Data </button></div>
-                </div>
+                </div> -->
             </div>
             <div class="card-body">
                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -45,28 +45,24 @@
                 </button>
             </div>
             
-            <input type="hidden" name="id">
             <div class="modal-body mx-5">
                 <div class="form-group">
-                    <label for="file">Judul Penelitian</label>
-                    <input class="form-control" type="text" id="title" placeholder="Judul Penelitian">
-                </div>
-                <div class="form-group">
-                    <label for="file">Upload File</label>
+                    <label for="deskripsi">Deskripsi</label>
                     <!-- <input type="file" class="form-control" name="file" placeholder="Upload File"> -->
-                    <form action="{{url('dosen/store')}}" class="dropzone" id="dropzone" method="post" enctype="multipart/form-data">
+                    <form action="{{url('reviewer/store')}}" class="notes" id="notes" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id">
                     <input type="hidden" name="title">
-                    <div class="fallback">
-                        <input name="file" type="file" multiple="multiple">
-                    </div>
-                    </form>
+                    <input type="hidden" name="approve" value="2">
+                    <textarea class="form-control" name="notes" id="notes"></textarea>
+                    
+                    
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" id="btn-submit" class="btn btn-primary">Kirim</button>
+                </form>
             </div>
         </div>
     </div>
@@ -84,7 +80,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         autoWidth: false,
-        ajax: "{{ url('dosen/list') }}",
+        ajax: "{{ url('reviewer/list') }}",
         "order": [[ 0, "desc" ]],
         columns: [
             {data: 'id', name: 'id'},
@@ -100,62 +96,11 @@ $(document).ready(function() {
     $('#title').on('change',function(){
         $('[name="title"]').val($(this).val());
     });
-})
-
-Dropzone.autoDiscover = false;
-
-var myDropzone = new Dropzone(".dropzone", { 
-    maxFilesize: 12,
-    uploadMultiple: false, 
-    maxFiles: 1,
-    renameFile: function(file) {
-        var dt = new Date();
-        var time = dt.getTime();
-        console.log(time+file.name);
-        return time+file.name;
-    },
-    parallelUploads: 1,
-    acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.txt,.xls,.xlsx,.doc,.docx",
-    addRemoveLinks: true,
-    autoProcessQueue: false,
-    timeout: 50000,
-    removedfile: function(file) 
-    {
-        var name = file.name;
-        $.ajax({
-            type: 'GET',
-            url: '{{ url("invoice/delete_files")}}' + '/' + name,
-            success: function (data){
-                console.log("File has been successfully removed!!");
-            },
-            error: function(e) {
-                console.log(e);
-            }});
-            var fileRef;
-            return (fileRef = file.previewElement) != null ? 
-            fileRef.parentNode.removeChild(file.previewElement) : void 0;
-    },
-    success: function(file, response) 
-    {
-        swal({
-            title: 'Success!',
-            text: 'Konfirmasi Pembayaran Berhasil!',
-            type: 'success',
-            showConfirmButton: false
-        }).then(
-            setTimeout(function () {
-                window.location.replace("{{ url('dosen')}}")
-            }, 2000)
-        )
-    },
-    error: function(file, response)
-    {
-        return false;
-    }
 });
 
+
 $('#btn-submit').on('click',function(){
-    myDropzone.processQueue();
+    console.log('asd')
 });
 
 function add(id){
@@ -167,36 +112,10 @@ function edit(id){
     $('[name="id"]').val(id);
     $('#formModal').modal('show'); 
 }
+function accept(id){
+    $('[name="id"]').val(id);
+    $('#formModal').modal('show'); 
+}
 
-function delete_process(id){
-    swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result) {
-            $.ajax({
-                type: 'GET',
-                url: '{{ url("dosen/delete")}}' + '/' + id,
-                success: function (data){
-                    swal(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                    ).then(()=> {
-                        window.location.replace("{{ url('dosen')}}")
-                    })
-                },
-                error: function(e) {
-                    console.log(e);
-                }
-            });
-        }
-    })
-};
 </script>
 @endsection

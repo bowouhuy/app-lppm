@@ -33,7 +33,7 @@
                             <h4 class="font-18 mt-3 m-b-5">Welcome Back !</h4>
                             <p class="text-muted">Sign in to continue to LPPM.</p>
                         </div>
-                        <a href="{{url('/')}}" class="logo-admin"><img src="{{asset('admin_template/assets/images/logo.png')}}" height="26" alt="logo"></a>
+                        <a href="{{url('/')}}" class="logo-admin"><img src="{{asset('admin_template/assets/images/logo-retina.png')}}" height="26" alt="logo"></a>
                     </div>
 
                     <div class="p-3">
@@ -89,7 +89,7 @@
 
             <div class="m-t-40 text-center text-white-50">
                 <p>Don't have an account ? <a href="/register" class="font-600 text-white"> Signup Now </a> </p>
-                <p>© 2021 LPPM <span class="d-none d-md-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Delion.</span></p>
+                <p>© 2021 LPPM <span class="d-none d-md-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i></span></p>
             </div>
 
         </div>
